@@ -1,13 +1,52 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { ApolloProvider, createHttpLink } from '@apollo/client';
+import {ApolloClient} from "apollo-client"
+import { ApolloLink } from 'apollo-link'
+import {InMemoryCache} from "apollo-cache-inmemory"
+import { setContext } from 'apollo-link-context'
+import { onError } from 'apollo-link-error'
+import { BrowserRouter as Router } from 'react-router-dom'
 import App from './App';
+import Cookie from "js-cookie"
 import * as serviceWorker from './serviceWorker';
 
+const httpLink = createHttpLink({
+	uri: 'http://localhost:8000/graphql',
+});
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+	if (graphQLErrors) {
+		console.log('graphQLErrors', graphQLErrors);
+	}
+	if (networkError) {
+		console.log('networkError', networkError);
+	}
+});
+
+const authLink = setContext((_, {headers}) => {
+	const token = Cookie.get("token") || ""
+	return {
+		headers: {
+			...headers,
+			authorization: token ? `Bearer ${token}` : ""
+		}
+	}
+})
+
+const link = ApolloLink.from([errorLink, authLink.concat(httpLink)])
+
+const client = new ApolloClient({
+	link: link,
+	cache: new InMemoryCache()
+})
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+	<Router>
+		<ApolloProvider client={client}>
+			<App className="App"/>
+		</ApolloProvider>
+	</Router>,
   document.getElementById('root')
 );
 
