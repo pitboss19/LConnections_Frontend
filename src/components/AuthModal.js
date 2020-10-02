@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import { gql, useMutation } from '@apollo/client';
 
 import {Modal, IconButton, Typography, Grid, Switch} from "@material-ui/core"
@@ -28,11 +28,12 @@ const loginMutationQuery = gql`
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
-		width: "50vw",
-		display: 'flex',
-		margin: "0 auto",
-		alignItems: 'center',
-		justifyContent: 'center',
+		position:'absolute',
+		top:'10%',
+		left:'10%',
+		overflow:'scroll',
+		height:'100vh',
+		display:'block'
 	},
 	authModal: {
 		backgroundColor: "white"
@@ -40,19 +41,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AuthModal = props => {
-	const inHalfHour = 1/48
+	const inHalfADay = 0.5;
 	const classes = useStyles();
 	const [formMethod, setFormMethod] = useState("Login")
 	const [loginAccount, { loadingLogin, errorLogin }] = useMutation(loginMutationQuery, {
 		onCompleted: (data) => {
-			Cookie.set("token", data.login.token, {expires: inHalfHour})
+			Cookie.set("token", data.login.token, {expires: inHalfADay})
 			props.handleClose()
 		},
 		onError: (err) => console.log("Error:", err)
 	})
 	const [createAccount, { loadingSignup, errorSignup }] = useMutation(signupMutationQuery, {
 		onCompleted: (data) => {
-			Cookie.set("token", data.signup.token, {expires: inHalfHour})
+			Cookie.set("token", data.signup.token, {expires: inHalfADay})
 			props.handleClose()
 		},
 		onError: (err) => console.log("Error:", err)
@@ -62,8 +63,10 @@ const AuthModal = props => {
 	const handleForm = () => {
 		if(formMethod === "Login") {
 			setFormMethod("Signup")
+			props.setClickedButton("Login")
 		} else {
 			setFormMethod("Login")
+			props.setClickedButton("Signup")
 		}
 	}
 
@@ -75,6 +78,10 @@ const AuthModal = props => {
 		}
 	}
 
+	useEffect(() => {
+		setFormMethod(props.clickedButton)
+	}, [props.clickedButton])
+
 	return (
 		<Modal
 			className={classes.modal}
@@ -85,12 +92,10 @@ const AuthModal = props => {
 				<IconButton aria-label="delete" className={classes.margin} size="medium" onClick={props.handleClose}>
 					<ArrowBack fontSize="inherit" />
 				</IconButton>
-				<Grid component="label" container alignItems="center" spacing={1}>
-					<Grid item>Login</Grid>
-					<Grid item>
-						<Switch checked={formMethod !== "Login"} onChange={() => setFormMethod(formMethod === "Login" ? "Signup" : "Login")} name="formMethod" />
+				<Grid component="label" container alignItems="center">
+					<Grid item xs={12} align="center">
+						Login <Switch checked={formMethod !== "Login"} onChange={() => setFormMethod(formMethod === "Login" ? "Signup" : "Login")} name="formMethod" /> Signup
 					</Grid>
-					<Grid item>Signup</Grid>
 				</Grid>
 				{formMethod === "Login" ? <LoginForm submitForm={submitForm} /> : <SignupForm submitForm={submitForm} />}
 			</div>

@@ -10,6 +10,10 @@ import {loadStripe} from '@stripe/stripe-js';
 import { Grid } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
 
+// MATERIAL PICKERS IMPORTS
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+
 // COMPONENT IMPORTS
 import Home from "./components/Home"
 import Header from "./components/Header"
@@ -17,6 +21,8 @@ import AuthModal from "./components/AuthModal"
 import Profile from "./components/Profile"
 import Footer from "./components/Footer"
 import NavDrawer from "./components/NavDrawer"
+import Services from "./components/Services"
+import NotFound from "./components/NotFound"
 
 const stripePromise = loadStripe('pk_test_51HVJxiD2h7qCY2j9FBsadSlhlKvMicTy09NcvzCJsBSJGs0CEbBkHdZretydnQqHUkADMEcfAf5HcMBA39Kh80na00jgRlB0gE');
 
@@ -25,10 +31,14 @@ const useStyles = makeStyles((theme) => ({
 		paddingBottom: "3px",
 		background: "#0f2443",
 	},
+	mainContent: {
+		minHeight: "80vh"
+	}
 }));
 
 const App = () => {
 	const classes = useStyles()
+	const [clickedButton, setClickedButton] = useState("")
 	const [authShown, setAuthShown] = useState(false);
 	const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -45,24 +55,25 @@ const App = () => {
 	};
 
 	return (
-		<Switch>
+		<MuiPickersUtilsProvider utils={MomentUtils}>
 			<Elements stripe={stripePromise}>
 				<Grid container>
 					<Grid item xs={12} className={classes.header}>
-						<Header handleOpen={handleOpen} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
+						<Header handleOpen={handleOpen} setClickedButton={setClickedButton} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
 					</Grid>
-					<Grid item xs={12}>
+					<Grid item xs={12} className={classes.mainContent}>
 						<NavDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
-						<Route exact path="/" component={Home} />
-						<Route path="/profile" component={Profile} />
-						<AuthModal open={authShown} handleOpen={handleOpen} handleClose={handleClose} />
-					</Grid>
-					<Grid item xs={12}>
-						<Footer />
+						<Switch>
+							<Route exact path="/" render={(props) => <Home {...props} handleOpen={handleOpen} setClickedButton={setClickedButton}/>} />
+							<Route path="/profile" component={Profile} />
+							<Route path="/services" component={Services} />
+							<Route path="*" component={NotFound} />
+						</Switch>
+						<AuthModal open={authShown} clickedButton={clickedButton} setClickedButton={setClickedButton} handleOpen={handleOpen} handleClose={handleClose} />
 					</Grid>
 				</Grid>
 			</Elements>
-		</Switch>
+		</MuiPickersUtilsProvider>
 	)
 }
 

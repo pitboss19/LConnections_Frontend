@@ -1,7 +1,7 @@
 import React from "react"
 
 // MATERIAL UI IMPORTS
-import {Grid, Hidden} from "@material-ui/core"
+import {Button, Grid, Hidden} from "@material-ui/core"
 import {ShoppingBasket, Textsms, Loyalty} from "@material-ui/icons"
 import {makeStyles} from "@material-ui/core/styles"
 
@@ -14,6 +14,11 @@ const useStyles = makeStyles({
 	content: {
 		padding: "5vh 5vh",
 	},
+	authButton: {
+		backgroundColor: "rgb(119, 24, 24)",
+		color: "white",
+		borderRadius: "0"
+	}
 })
 
 const Home = props => {
@@ -29,6 +34,22 @@ const Home = props => {
 					<Hidden only={["md", "lg", "xl"]}>
 						<MobileCarousel />
 					</Hidden>
+				</Grid>
+				<Grid item xs={12} align="center">
+					<Grid container spacing={2}>
+						<Grid item xs={6}>
+							<Button variant="contained" className={classes.authButton} onClick={() => {
+								props.setClickedButton("Signup")
+								props.handleOpen()
+							}}>Signup</Button>
+						</Grid>
+						<Grid item xs={6}>
+							<Button variant="contained" className={classes.authButton} onClick={() => {
+								props.setClickedButton("Login")
+								props.handleOpen()
+							}}>Login</Button>
+						</Grid>
+					</Grid>
 				</Grid>
 				<Grid item xs={12}>
 					<Grid container spacing={3}>

@@ -21,7 +21,7 @@ function Footer(props) {
 				Local Connections
 			</Typography>
 			<Typography component="p">
-				@2020 All rights reserved
+				@2020 All right reserved
 			</Typography>
 		</footer>
 	);
