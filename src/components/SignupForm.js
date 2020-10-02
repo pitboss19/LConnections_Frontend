@@ -47,16 +47,17 @@ const SignupForm = props => {
 			<Grid
 				container
 				direction="row"
+				spacing={2}
 				>
-				<Grid item xs={6}>
+				<Grid item xs={12}>
+					<h2>Signup</h2>
+				</Grid>
+				<Grid item xs={12} sm={6}>
 					<Grid
 						container
 						spacing={2}
 						direction="row"
 					>
-						<Grid item xs={12}>
-							<h2>Signup</h2>
-						</Grid>
 						<Grid item xs={12}>
 							<TextField
 								id="address_line1"
@@ -125,14 +126,12 @@ const SignupForm = props => {
 
 					</Grid>
 				</Grid>
-				<Grid item xs={6}>
+				<Grid item xs={12} sm={6}>
 					<Grid
 						container
 						spacing={2}
 						direction="row"
 					>
-						<Grid item xs={12}>
-						</Grid>
 						<Grid item xs={12}>
 							<TextField
 								id="email"
@@ -213,10 +212,11 @@ const SignupForm = props => {
 								onEnter={handleForm}
 							/>
 						</Grid>
-						<Grid item xs={12}>
-							<Button variant="contained" onClick={handleForm}>Submit</Button>
-						</Grid>
+
 					</Grid>
+				</Grid>
+				<Grid item xs={12}>
+					<Button variant="contained" onClick={handleForm}>Submit</Button>
 				</Grid>
 			</Grid>
 		</div>

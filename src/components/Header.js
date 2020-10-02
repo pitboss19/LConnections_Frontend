@@ -82,15 +82,15 @@ const Header = props => {
 							<MenuIcon style={{color: "black"}}/>
 						</IconButton>
 					</Hidden>
-					<IconButton edge="start" className={classes.icon} color="inherit" aria-label="menu">
+					<IconButton edge="start" className={classes.icon} color="inherit" aria-label="menu" component={Link} to={{pathname: "/"}}>
 						<img src="/images/Icon.png" alt="Local Connections Icon" />
 					</IconButton>
 					<Typography variant="h6" className={classes.title}>
 						Local Connections
 					</Typography>
 					<Hidden only={["xs"]}>
-						<Button>Services</Button>
-						<Button>Membership</Button>
+						<Button component={Link} to={{pathname: "/"}}>Home</Button>
+						<Button component={Link} to={{pathname: "/services"}}>Services</Button>
 					</Hidden>
 					{Cookie.get("token") ? <div>
 						<IconButton
@@ -120,7 +120,10 @@ const Header = props => {
 							<MenuItem component={Link} to={{pathname: "/profile"}} onClick={() => setProfileAnchorEl(null)}>Profile</MenuItem>
 							<MenuItem onClick={handleLogout}>Logout</MenuItem>
 						</Menu>
-					</div> : <Button className={classes.navButton} color="inherit" onClick={props.handleOpen}>Login</Button>}
+					</div> : <Button className={classes.navButton} color="inherit" onClick={() => {
+						props.handleOpen()
+						props.setClickedButton("Login")
+					}}>Login</Button>}
 				</Toolbar>
 			</AppBar>
 		</>

@@ -3,12 +3,12 @@
 
 .SecondExample
 {
-  width: 500px;
+  width: 100%;
 
   .Project
   {
     position: relative;
-    height: 300px;
+    height: 25vh;
     overflow: hidden;
     padding: 20px;
 
@@ -19,7 +19,7 @@
 
     .CheckButton
     {
-      margin-top: 40px;
+      margin-top: 1vh;
       color: white;
 
       font-size: $header-font-size;
