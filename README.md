@@ -1,5 +1,7 @@
 # **Local Connections Website**
 
+![Picture of website](https://i.imgur.com/FB1Btw6.png)
+
 ## **Project**
 
 A local company was looking to create a website that can showcase their company's services, reputation, and also be able allow customers to schedule services, manage invoices, and have online payment processing. They wanted to ensure that their portal was secure, not handling card information on their servers, and be a fluid experience on both mobile and browsers.
