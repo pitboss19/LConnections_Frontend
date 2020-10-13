@@ -12,7 +12,7 @@ import Cookie from "js-cookie"
 import * as serviceWorker from './serviceWorker';
 
 const httpLink = createHttpLink({
-	uri: 'http://localhost:8000/graphql',
+	uri: 'http://anthonygregis.com/graphql',
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {

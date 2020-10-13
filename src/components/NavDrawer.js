@@ -1,5 +1,6 @@
 import React from "react"
 import clsx from "clsx"
+import { Link } from "react-router-dom"
 import {AppBar, Toolbar, IconButton, Typography, Button, Avatar, MenuItem, Menu, Hidden} from "@material-ui/core"
 import Drawer from "@material-ui/core/Drawer"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -115,13 +116,11 @@ const NavDrawer = props => {
 			</div>
 			<Divider/>
 			<List>
-				<ListItem button key="Services">
-					<ListItemIcon><RoomServiceIcon/></ListItemIcon>
-					<ListItemText primary="Services"/>
+				<ListItem button key="Home" component={Link} to={{pathname: "/"}}>
+					<ListItemText primary="Home"/>
 				</ListItem>
-				<ListItem button key="Membership">
-					<ListItemIcon><LoyaltyIcon/></ListItemIcon>
-					<ListItemText primary="Membership"/>
+				<ListItem button key="Services" component={Link} to={{pathname: "/services"}}>
+					<ListItemText primary="Services"/>
 				</ListItem>
 			</List>
 		</Drawer>
